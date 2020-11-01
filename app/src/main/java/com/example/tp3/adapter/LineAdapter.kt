@@ -1,44 +1,39 @@
 package com.example.tp3.adapter
 
-import android.content.Intent
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tp3.R
-import com.example.tp3.dataclasse.Place
-import kotlinx.android.synthetic.main.recyclerline.view.*
+import com.example.tp3.entities.City
 
+class LineAdapter internal constructor(
+    context: Context
+) : RecyclerView.Adapter<LineAdapter.CityViewHolder>() {
 
-class LineAdapter(val list: ArrayList<Place>):RecyclerView.Adapter<LineViewHolder>(){
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
+    private var cities = emptyList<City>() // Cached copy of cities
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LineViewHolder {
-
-        val itemView = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.recyclerline, parent, false);
-        return LineViewHolder(itemView)
+    class CityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val cityItemView: TextView = itemView.findViewById(R.id.textView)
     }
 
-    override fun getItemCount(): Int {
-        return list.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {
+        val itemView = inflater.inflate(R.layout.recyclerline, parent, false)
+        return CityViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: LineViewHolder, position: Int) {
-        val currentPlace = list[position]
-
-        holder.name.text = currentPlace.name
-        holder.capital.text = currentPlace.capital
-        holder.nhabitants.text = currentPlace.habitants.toString()
+    override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
+        val current = cities[position]
+        holder.cityItemView.text = current.id.toString() + " - " + current.city + "-" + current.country
     }
 
-}
+    internal fun setCities(cities: List<City>) {
+        this.cities = cities
+        notifyDataSetChanged()
+    }
 
-class LineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-
-    val name = itemView.name
-    val capital = itemView.capital
-    var nhabitants = itemView.habitants
-
+    override fun getItemCount() = cities.size
 }

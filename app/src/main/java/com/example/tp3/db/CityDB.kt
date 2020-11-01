@@ -36,8 +36,10 @@ public abstract class CityDB : RoomDatabase() {
                     // Add sample cities.
                     var city = City(1, "Viana do Castelo", "Portugal")
                     cityDao.insert(city)
+
                     city = City(2, "Porto", "Portugal")
                     cityDao.insert(city)
+
                     city = City(3, "Aveiro", "Portugal")
                     cityDao.insert(city)
 
